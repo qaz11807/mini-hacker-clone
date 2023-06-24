@@ -18,7 +18,6 @@ ENV RAILS_ENV="production" \
 RUN gem update --system --no-document && \
     gem install -N bundler
 
-
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
@@ -38,6 +37,12 @@ COPY --link . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
+# Fix Fly.io Permission bug
+RUN chmod +x ./bin/docker-entrypoint && \
+    sed -i "s/\r$//g" ./bin/docker-entrypoint
+
+RUN chmod +x ./bin/rails && \
+    sed -i "s/\r$//g" ./bin/rails
 
 # Final stage for app image
 FROM base
