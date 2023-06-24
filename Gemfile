@@ -24,6 +24,17 @@ gem "puma", "~> 5.0"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
+# An API focused facade that sits on top of an object model
+gem "grape-entity"
+
+gem "settingslogic", "~> 2.0", ">= 2.0.9"
+
+gem "error_response"
+
+gem "kaminari", "~> 1.2"
+
+gem 'service_caller', '~> 1.2.0'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
@@ -39,6 +50,24 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+
+  # RSpec meta-gem that depends on the other components
+  gem "rspec"
+  gem "rspec-rails"
+
+  # pry debug tool
+  gem "pry"
+  gem "pry-rails"
+  gem "pry-byebug", "~> 3.9.0"
+
+  # for test create fake data
+  gem "factory_bot_rails"
+
+  # for test clear database data
+  gem "database_cleaner", "~> 1.5"
 end
 
 group :development do
