@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for hahow-side-project on 2023-06-23T03:17:41+08:00
+# fly.toml app configuration file generated for back-founder-side-project on 2023-06-23T03:17:41+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "hahow-side-project"
+app = "back-founder-side-project"
 primary_region = "nrt"
 console_command = "/rails/bin/rails console"
 

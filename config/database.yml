@@ -10,15 +10,15 @@ default: &default
 
 development: 
   <<: *default
-  database: hahow_side_project_development
+  database: back_founder_side_project_development
 
 test:
   <<: *default
-  database: hahow_side_project_test
+  database: back_founder_side_project_test
 
 production:
   <<: *default
-  database: hahow_side_project_production
+  database: back_founder_side_project_production
   host: "<%= ENV['DATABASE_HOST'] %>"
   username: "<%= ENV['DATABASE_USERNAME'] %>"
   password: "<%= ENV['DATABASE_PASSWORD'] %>"
