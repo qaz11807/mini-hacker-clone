@@ -35,6 +35,9 @@ gem "kaminari", "~> 1.2"
 
 gem 'service_caller', '~> 1.2.0'
 
+# For Crwal data from website
+gem "wombat"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
