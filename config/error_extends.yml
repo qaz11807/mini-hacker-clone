@@ -1,0 +1,6 @@
+invalid_email:
+  error_code: 400_002
+  error_message: invalid email
+email_already_registered:
+  error_code: 400_005
+  error_message: email already registered

@@ -90,4 +90,8 @@ RSpec.configure do |config|
   config.include RequestHelper, type: :controller
 
   config.include MockHelper
+
+  config.before(:each) do
+    mock_account
+  end
 end
