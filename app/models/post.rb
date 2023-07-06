@@ -1,3 +1,8 @@
 class Post < ApplicationRecord
-  has_many :comments
+  def comments
+    comment = Comment.find_by(post_id: id)
+    return unless comment.has_children?
+
+    comment.descendants
+  end
 end
