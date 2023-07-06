@@ -1,3 +1,6 @@
+invalid_client:
+  error_code: 400_001
+  error_message: invalid client
 invalid_email:
   error_code: 400_002
   error_message: invalid email

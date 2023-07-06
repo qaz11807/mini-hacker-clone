@@ -1,5 +1,6 @@
 class User::Registration < ServiceCaller
-  def initialize(user_info)
+  def initialize(application_id, user_info)
+    @application_id = application_id
     @user_info = user_info
   end
 
@@ -7,6 +8,7 @@ class User::Registration < ServiceCaller
     check_email_format
     check_email_exist
     setup_user
+    generate_token
 
     @result = @user
   end
@@ -26,5 +28,14 @@ class User::Registration < ServiceCaller
     @user = User.new
     @user.assign_attributes(@user_info)
     @user.save!
+  end
+
+  def generate_token
+    @user.access_tokens.create(
+      application_id: @application_id,
+      use_refresh_token: true,
+      expires_in: Doorkeeper.configuration.access_token_expires_in.to_i,
+      scopes: ''
+    )
   end
 end

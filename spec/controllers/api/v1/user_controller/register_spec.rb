@@ -9,7 +9,9 @@ RSpec.describe '/user#register', type: :request do
     }
     @params = {
       email: 'new_email@gmail.com',
-      password: 'rootroot'
+      password: 'rootroot',
+      client_id: @app.uid,
+      client_secret: @app.secret
     }
     @path = '/api/v1/user/register'
   end

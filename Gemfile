@@ -37,6 +37,8 @@ gem 'service_caller', '~> 1.2.0'
 
 gem 'ancestry'
 
+gem 'doorkeeper'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
@@ -76,7 +78,6 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
-
 
 gem "dockerfile-rails", ">= 1.5", :group => :development
 
