@@ -1,8 +1,10 @@
 class Post < ApplicationRecord
-  def comments
-    comment = Comment.find_by(post_id: id)
-    return unless comment.has_children?
+  has_many :comments, as: :commentable
+  belongs_to :user
 
-    comment.descendants
+  enum post_type: { story: 0, job: 1 }
+
+  def nested_comments
+    comments.first.descendants
   end
 end
