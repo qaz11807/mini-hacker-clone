@@ -1,5 +1,3 @@
-require './lib/thirdparty/hacker_news'
-
 class HackerNews::Extract < ServiceCaller
   def initialize(file_name)
     @file_name = file_name
