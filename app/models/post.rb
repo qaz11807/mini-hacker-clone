@@ -5,6 +5,6 @@ class Post < ApplicationRecord
   enum post_type: { story: 0, job: 1 }
 
   def nested_comments
-    comments.first.descendants
+    comments.map { |comment| comment.subtree.arrange_serializable }
   end
 end
