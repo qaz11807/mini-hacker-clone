@@ -37,7 +37,7 @@ class HackerNews::TransformAndLoad < ServiceCaller
   end
 
   def create_or_update_comment(item, user, parent)
-    comment = Comment.find_or_initialize_by(id: item['id'])
+    comment = Comment.find_or_initialize_by(external_id: item['id'])
     comment.assign_attributes(text: item['text'],
                               commentable: parent,
                               user: user)
@@ -46,7 +46,7 @@ class HackerNews::TransformAndLoad < ServiceCaller
   end
 
   def create_or_update_post(item, user)
-    post = Post.find_or_initialize_by(id: item['id'])
+    post = Post.find_or_initialize_by(external_id: item['id'])
     post.assign_attributes(title: item['title'],
                            url: item['url'],
                            post_type: item['type'],
