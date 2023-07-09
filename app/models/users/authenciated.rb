@@ -1,5 +1,20 @@
-class User
+module Users
   module Authenciated
+    extend ActiveSupport::Concern
+
+    included do
+      has_many :access_tokens, class_name: 'Doorkeeper::AccessToken',
+                               foreign_key: 'resource_owner_id',
+                               dependent: :destroy
+    end
+
+    class_methods do
+      def authenticate(email, password)
+        user = User.find_for_authentication(email: email)
+        user&.valid_password?(password) ? user : nil
+      end
+    end
+
     def generate_access_token(app_id, scopes = '')
       access_tokens.create(
         application_id: app_id,

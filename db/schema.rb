@@ -10,20 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_07_164820) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_09_033726) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "comments", force: :cascade do |t|
     t.string "text"
     t.float "weight"
-    t.integer "voted", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ancestry", null: false, collation: "C"
     t.string "commentable_type"
     t.integer "commentable_id"
     t.bigint "user_id"
+    t.integer "votes_count", default: 0
     t.index ["ancestry"], name: "index_comments_on_ancestry"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_164820) do
     t.datetime "updated_at", null: false
     t.integer "post_type", default: 0
     t.bigint "user_id"
+    t.integer "descendants", default: 0
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -92,10 +93,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_164820) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "comment_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_votes_on_comment_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "comments", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "posts", "users"
+  add_foreign_key "votes", "comments"
+  add_foreign_key "votes", "users"
 end

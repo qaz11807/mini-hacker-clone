@@ -4,19 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable
 
-  include Authenciated
-
-  has_many :access_tokens, class_name: 'Doorkeeper::AccessToken',
-                           foreign_key: 'resource_owner_id',
-                           dependent: :destroy
+  include Users::Authenciated
 
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
 
-  class << self
-    def authenticate(email, password)
-      user = User.find_for_authentication(email: email)
-      user&.valid_password?(password) ? user : nil
-    end
-  end
+  has_many :votes, dependent: :destroy
 end

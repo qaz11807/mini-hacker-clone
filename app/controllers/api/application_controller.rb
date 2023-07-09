@@ -1,7 +1,28 @@
 class Api::ApplicationController < ApplicationController
+  before_action :setup_token
+
   private
 
-  def success_response(data)
+  def setup_token
+    token, _options = ActionController::HttpAuthentication::Token.token_and_options(request)
+    return if token.nil?
+
+    @token = Doorkeeper::AccessToken.find_by(token: token)
+  end
+
+  def setup_user(optional: false)
+    return @user if @user.present?
+
+    if @token.nil?
+      return if optional
+
+      render status: 401
+    else
+      @user = User.find_by(id: @token[:resource_owner_id])
+    end
+  end
+
+  def success_response(data = nil)
     render status: :ok, json: { data: data }
   end
 
@@ -15,7 +36,7 @@ class Api::ApplicationController < ApplicationController
     controller_name = controller_path.classify
     serializer_class_name = "#{serializer_name.to_s.camelize}Serializer"
     serializer_class = controller_name.gsub(/Api::(\w+)::\S+$/, "Api::#{'\1'}::#{serializer_class_name}").safe_constantize || serializer_class_name.safe_constantize
-    serializer = serializer_class.new(current_member: @member)
+    serializer = serializer_class.new(current_user: @user)
     render status: 200, json: { data: serializer.represent(resource, options) }
   end
 end

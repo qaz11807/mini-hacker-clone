@@ -7,16 +7,16 @@ Rails.application.routes.draw do
         post '/register', action: 'register'
       end
 
-      resources :posts, module: :posts, controller: :base, only: [:index, :create] do
-        resources :comments, only: [:create]
+      resources :posts, only: [:index, :show, :create] do 
+        member do
+          post '/comments', action: 'add_comment'
+        end
       end
 
-      resources :comments, module: :comments, controller: :base, only: [:show] do
+      resources :comments, only: [:create] do
         member do
-          post '/voted', action: 'add'
+          post '/votes', action: 'votes'
         end
-
-        resources :comments, only: [:create]
       end
     end
   end

@@ -1,6 +1,6 @@
 require './lib/thirdparty/hacker_news'
 
-class HackerNews::Export < ServiceCaller
+class HackerNews::ExtractAndExport < ServiceCaller
   def initialize(start_id, fetch_count, file_name: nil)
     @start_id = start_id.to_i || 1
     @fetch_count = fetch_count.to_i || 100

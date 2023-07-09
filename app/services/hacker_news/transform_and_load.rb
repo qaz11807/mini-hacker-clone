@@ -1,4 +1,4 @@
-class HackerNews::Extract < ServiceCaller
+class HackerNews::TransformAndLoad < ServiceCaller
   def initialize(file_name)
     @file_name = file_name
   end
@@ -41,7 +41,6 @@ class HackerNews::Extract < ServiceCaller
     comment.assign_attributes(text: item['text'],
                               commentable: parent,
                               user: user)
-    comment.parent = parent if parent.instance_of?(Comment)
     comment.save!
     comment
   end
