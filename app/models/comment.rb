@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :commentable, polymorphic: true
   has_many :comments, as: :commentable
-  has_many :votes
+  has_many :votes, as: :votable
 
   before_create :update_parent
   after_create :update_post_descendants

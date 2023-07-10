@@ -7,18 +7,21 @@ Rails.application.routes.draw do
         post '/register', action: 'register'
       end
 
-      resources :posts, only: [:index, :show, :create] do 
+      concern :commentable do
         member do
           post '/comments', action: 'add_comment'
         end
       end
 
-      resources :comments, only: [] do
+      concern :votable do
         member do
-          post '/comments', action: 'add_comment'
           post '/votes', action: 'vote'
         end
       end
+
+      resources :posts, only: [:index, :show, :create], concerns: [:commentable, :votable]
+
+      resources :comments, only: [], concerns: [:commentable, :votable]
     end
   end
 end

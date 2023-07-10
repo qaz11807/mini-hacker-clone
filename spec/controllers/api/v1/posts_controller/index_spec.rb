@@ -3,19 +3,19 @@
 require 'rails_helper'
 
 RSpec.describe '/posts#index', type: :request do
-  before(:each) do |example|
+  before(:each) do
     @posts = create_list(:post, 20, user: @user)
 
     @path = '/api/v1/posts'
   end
 
   describe 'Get all posts' do
-    it 'should return code 200' do |example|
+    it 'should return code 200' do
       get(@path)
       expect(response).to have_http_status(:ok)
     end
 
-    it 'should return code 200 with pagination' do |example|
+    it 'should return code 200 with pagination' do
       params = {
         page: 1,
         per_page: 5

@@ -2,25 +2,25 @@
 
 require 'rails_helper'
 
-RSpec.describe '/comments#vote', type: :request do
+RSpec.describe '/posts#vote', type: :request do
   before(:each) do
     @headers = {
       'Authorization': "Bearer #{@token}",
       'Content-Type': 'application/json'
     }
 
-    @comment = create(:comment, :with_post, user: @user)
+    @post = create(:post, user: @user)
 
-    @path = "/api/v1/comments/#{@comment.id}/votes"
+    @path = "/api/v1/posts/#{@post.id}/votes"
   end
 
-  describe 'vote the comment' do
+  describe 'vote the post' do
     it 'should return code 200' do
       post(@path, headers: @headers, params: @params.to_json)
       expect(response).to have_http_status(:ok)
 
       expect(
-        @comment.votes.find_by(user: @user)
+        @post.votes.find_by(user: @user)
       ).to be_present
     end
 
@@ -30,7 +30,7 @@ RSpec.describe '/comments#vote', type: :request do
     end
 
     it 'should return code unvote if user already voted the comment' do
-      create(:vote, user: @user, votable: @comment)
+      create(:vote, user: @user, votable: @post)
 
       expect { post(@path, headers: @headers, params: @params.to_json) }
         .to change(Vote, :count).by(-1)

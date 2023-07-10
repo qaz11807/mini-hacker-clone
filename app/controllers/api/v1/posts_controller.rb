@@ -1,7 +1,7 @@
 class Api::V1::PostsController < Api::V1::ApplicationController
   before_action :setup_user, only: [:create, :add_comment]
   before_action -> { setup_user(optional: true) }
-  before_action :setup_post, only: [:show, :add_comment]
+  before_action :setup_post, only: [:show, :add_comment, :vote]
 
   def index
     per_page = params[:per_page] || Post::PER_PAGE
@@ -25,6 +25,18 @@ class Api::V1::PostsController < Api::V1::ApplicationController
     comment = @post.comments.create!(text: params[:text], user: @user)
 
     serialize_response(:comment, comment)
+  end
+
+  def vote
+    vote = @post.votes.find_or_initialize_by(user: @user)
+
+    if vote.persisted?
+      vote.destroy!
+    else
+      vote.save!
+    end
+
+    success_response(:ok)
   end
 
   private

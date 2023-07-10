@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_09_103208) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_10_093951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -81,6 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_09_103208) do
     t.bigint "user_id"
     t.integer "descendants", default: 0
     t.integer "external_id"
+    t.integer "votes_count", default: 0
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -96,11 +97,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_09_103208) do
   end
 
   create_table "votes", force: :cascade do |t|
-    t.bigint "comment_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["comment_id"], name: "index_votes_on_comment_id"
+    t.string "votable_type"
+    t.integer "votable_id"
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
@@ -110,6 +111,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_09_103208) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "posts", "users"
-  add_foreign_key "votes", "comments"
   add_foreign_key "votes", "users"
 end

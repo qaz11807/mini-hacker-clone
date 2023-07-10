@@ -14,7 +14,3 @@ post_not_found:
 comment_not_found:
   error_code: 404_002
   error_message: comment not found
-
-comment_already_voted:
-  error_code: 406_001
-  error_message: user already voted the comment

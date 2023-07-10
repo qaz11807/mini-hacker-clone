@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe '/comments#add_comment', type: :request do
-  before(:each) do |example|
+  before(:each) do
     @headers = {
       'Authorization': "Bearer #{@token}",
       'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ RSpec.describe '/comments#add_comment', type: :request do
   end
 
   describe 'reply the comment' do
-    it 'should return code 200' do |example|
+    it 'should return code 200' do
       post(@path, headers: @headers, params: @params.to_json)
       expect(response).to have_http_status(:ok)
 
@@ -27,12 +27,12 @@ RSpec.describe '/comments#add_comment', type: :request do
       ).to be_present
     end
 
-    it 'should create new comment' do |example|
+    it 'should create new comment' do
       expect { post(@path, headers: @headers, params: @params.to_json) }
         .to change(Comment, :count).by(+1)
     end
 
-    it 'should return code 404 if comment not found' do |example|
+    it 'should return code 404 if comment not found' do
       @path = '/api/v1/comments/9999/comments'
 
       post(@path, headers: @headers, params: @params.to_json)

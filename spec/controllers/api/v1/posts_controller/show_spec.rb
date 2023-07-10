@@ -9,8 +9,6 @@ RSpec.describe '/posts#show', type: :request do
     }
 
     @post = create(:post, :with_comments, user: @user)
-    @voted_comment = @post.comments.first
-    create(:vote, user: @user, comment: @voted_comment)
 
     @path = "/api/v1/posts/#{@post.id}"
   end
@@ -31,9 +29,20 @@ RSpec.describe '/posts#show', type: :request do
       ).to_not be_empty
     end
 
-    it 'the cooment should with voted if request has token' do
+    it 'the comment and should with voted if request has token' do
+      @voted_comment = @post.comments.first
+      create(:vote, user: @user, votable: @post)
+      create(:vote, user: @user, votable: @voted_comment)
+
       get(@path, headers: @headers)
       expect(response).to have_http_status(:ok)
+
+      # Post
+      expect(
+        json['data']['voted']
+      ).to eq(true)
+
+      # Comment
       expect(
         json['data']['comments'].flatten.find { |comment| comment['id'] == @voted_comment.id }['voted']
       ).to eq(true)

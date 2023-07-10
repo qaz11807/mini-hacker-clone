@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe '/user#register', type: :request do
-  before(:each) do |example|
+  before(:each) do
     @headers = {
       'Content-Type': 'application/json'
     }
@@ -17,12 +17,12 @@ RSpec.describe '/user#register', type: :request do
   end
 
   describe 'Post users/register' do
-    it 'should return code 200' do |example|
+    it 'should return code 200' do
       post(@path, headers: @headers, params: @params.to_json)
       expect(response).to have_http_status(:ok)
     end
 
-    it 'should return code 400 if email is not valid' do |example|
+    it 'should return code 400 if email is not valid' do
       @params[:email] = 'test.acc'
 
       post(@path, headers: @headers, params: @params.to_json)
@@ -30,7 +30,7 @@ RSpec.describe '/user#register', type: :request do
       expect(json['error_code']).to eq(400_002)
     end
 
-    it 'should return code 400 if email already used' do |example|
+    it 'should return code 400 if email already used' do
       @params[:email] = @user.email
 
       post(@path, headers: @headers, params: @params.to_json)

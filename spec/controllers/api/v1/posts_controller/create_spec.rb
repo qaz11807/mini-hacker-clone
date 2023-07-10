@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe '/posts#create', type: :request do
-  before(:each) do |example|
+  before(:each) do
     @headers = {
       'Authorization': "Bearer #{@token}",
       'Content-Type': 'application/json'
@@ -17,12 +17,12 @@ RSpec.describe '/posts#create', type: :request do
   end
 
   describe 'create new post' do
-    it 'should return code 200' do |example|
+    it 'should return code 200' do
       post(@path, headers: @headers, params: @params.to_json)
       expect(response).to have_http_status(:ok)
     end
 
-    it 'should create new post' do |example|
+    it 'should create new post' do
       expect { post(@path, headers: @headers, params: @params.to_json) }
         .to change(Post, :count).by(+1)
     end

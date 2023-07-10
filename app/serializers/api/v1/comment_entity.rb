@@ -1,5 +1,5 @@
 class Api::V1::CommentEntity < BaseEntity
-  expose :id, :text, :weight, :votes_count
+  expose :id, :text, :weight, :votes_count, :created_at
   expose :author, using: Api::V1::UserEntity do |comment|
     comment.user
   end

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe '/oauth/token', type: :request do
-  before(:each) do |example|
+  before(:each) do
     @headers = {
       'Content-Type': 'application/json'
     }
@@ -11,7 +11,7 @@ RSpec.describe '/oauth/token', type: :request do
   end
 
   describe 'Oauth get access_token' do
-    it 'should return code 200' do |example|
+    it 'should return code 200' do
       params = {
         username: @user.email,
         password: @user.password,

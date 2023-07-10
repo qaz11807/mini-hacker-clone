@@ -10,9 +10,12 @@ class Api::V1::CommentsController < Api::V1::ApplicationController
 
   def vote
     vote = @comment.votes.find_or_initialize_by(user: @user)
-    return error_response(:comment_already_voted) if vote.persisted?
 
-    vote.save!
+    if vote.persisted?
+      vote.destroy!
+    else
+      vote.save!
+    end
 
     success_response(:ok)
   end
