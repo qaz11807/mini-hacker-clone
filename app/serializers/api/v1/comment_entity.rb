@@ -17,6 +17,6 @@ class Api::V1::CommentEntity < BaseEntity
   def voted
     return false unless options[:current_user]
 
-    comment.votes.pluck(:id).include?(options[:current_user].id)
+    comment.votes.pluck(:user_id).include?(options[:current_user].id)
   end
 end

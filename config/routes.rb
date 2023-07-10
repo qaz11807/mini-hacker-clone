@@ -13,9 +13,10 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :comments, only: [:create] do
+      resources :comments, only: [] do
         member do
-          post '/votes', action: 'votes'
+          post '/comments', action: 'add_comment'
+          post '/votes', action: 'vote'
         end
       end
     end

@@ -23,7 +23,7 @@ RSpec.describe '/posts#create', type: :request do
     end
 
     it 'should create new post' do |example|
-      expect{ post(@path, headers: @headers, params: @params.to_json) }
+      expect { post(@path, headers: @headers, params: @params.to_json) }
         .to change(Post, :count).by(+1)
     end
   end

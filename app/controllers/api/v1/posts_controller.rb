@@ -16,13 +16,13 @@ class Api::V1::PostsController < Api::V1::ApplicationController
   end
 
   def create
-    post = current_user.posts.create!(post_params)
+    post = @user.posts.create!(post_params)
 
     serialize_response(:post, post)
   end
 
   def add_comment
-    comment = @post.comments.create!(text: params[:text], user: current_user)
+    comment = @post.comments.create!(text: params[:text], user: @user)
 
     serialize_response(:comment, comment)
   end

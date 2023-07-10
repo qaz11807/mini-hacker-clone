@@ -1,16 +1,16 @@
 class Api::V1::CommentsController < Api::V1::ApplicationController
-  before_action :doorkeeper_authorize!, only: [:create, :votes]
-  before_action :setup_comment, only: [:create, :votes]
+  before_action :setup_user, only: [:add_comment, :vote]
+  before_action :setup_comment, only: [:add_comment, :vote]
 
-  def create
-    comment = @comment.comments.create!(text: params[:text], user: current_user)
+  def add_comment
+    comment = @user.comments.create!(text: params[:text], commentable: @comment)
 
     serialize_response(:comment, comment)
   end
 
-  def votes
-    vote = @comment.votes.find_or_initialize_by(user: current_user)
-    return error_response(:already_voted) if vote.persisted?
+  def vote
+    vote = @comment.votes.find_or_initialize_by(user: @user)
+    return error_response(:comment_already_voted) if vote.persisted?
 
     vote.save!
 
