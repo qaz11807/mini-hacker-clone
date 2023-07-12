@@ -44,6 +44,9 @@ RUN chmod +x ./bin/docker-entrypoint && \
 RUN chmod +x ./bin/rails && \
     sed -i "s/\r$//g" ./bin/rails
 
+RUN chmod +x ./bin/bundle && \
+    sed -i "s/\r$//g" ./bin/bundle
+
 RUN chmod +x ./bin/cron && \
     sed -i "s/\r$//g" ./bin/cron
 
