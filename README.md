@@ -48,3 +48,11 @@ run
 bundle exec whenever --update-crontab
 ```
 to update the cronjob
+
+# Test in Postman
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/5948636-eb68ad0b-9e6b-46ed-be61-02c66dc8712c?action=collection%2Ffork&collection-url=entityId%3D5948636-eb68ad0b-9e6b-46ed-be61-02c66dc8712c%26entityType%3Dcollection%26workspaceId%3D44cef014-6be8-430d-9df2-317bb776e061)
+
+# DB schema
+
+Yo can look db schema on [dbdigram](https://dbdiagram.io/d/649e159002bd1c4a5e471e98)
