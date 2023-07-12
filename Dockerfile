@@ -44,6 +44,9 @@ RUN chmod +x ./bin/docker-entrypoint && \
 RUN chmod +x ./bin/rails && \
     sed -i "s/\r$//g" ./bin/rails
 
+RUN chmod +x ./bin/cron && \
+    sed -i "s/\r$//g" ./bin/cron
+
 # Final stage for app image
 FROM base
 
