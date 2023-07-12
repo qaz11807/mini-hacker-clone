@@ -7,6 +7,7 @@
 #
 set :output, 'log/cron.log'
 env :PATH, ENV['PATH']
+ENV.each { |k, v| env(k, v) }
 
 every 1.minutes do
   rake 'commentable:weight:update'
