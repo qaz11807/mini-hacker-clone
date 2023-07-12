@@ -2,4 +2,6 @@
 
 ./bin/bundle exec whenever --update-crontab
 
+cron -l
+
 cron -f

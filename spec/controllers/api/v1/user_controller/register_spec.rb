@@ -8,7 +8,7 @@ RSpec.describe '/user#register', type: :request do
       'Content-Type': 'application/json'
     }
     @params = {
-      email: 'new_email@gmail.com',
+      username: 'new_email@gmail.com',
       password: 'rootroot',
       client_id: @app.uid,
       client_secret: @app.secret
@@ -16,14 +16,14 @@ RSpec.describe '/user#register', type: :request do
     @path = '/api/v1/user/register'
   end
 
-  describe 'Post users/register' do
+  describe 'Post user/register' do
     it 'should return code 200' do
       post(@path, headers: @headers, params: @params.to_json)
       expect(response).to have_http_status(:ok)
     end
 
     it 'should return code 400 if email is not valid' do
-      @params[:email] = 'test.acc'
+      @params[:username] = 'test.acc'
 
       post(@path, headers: @headers, params: @params.to_json)
       expect(response).to have_http_status(400)
@@ -31,7 +31,7 @@ RSpec.describe '/user#register', type: :request do
     end
 
     it 'should return code 400 if email already used' do
-      @params[:email] = @user.email
+      @params[:username] = @user.email
 
       post(@path, headers: @headers, params: @params.to_json)
       expect(response).to have_http_status(400)
