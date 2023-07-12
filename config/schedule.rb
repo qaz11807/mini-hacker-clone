@@ -5,7 +5,8 @@
 
 # Example:
 #
-# set :output, '/logs//cron.log'
+set :output, 'log/cron.log'
+env :PATH, ENV['PATH']
 
 every 1.minutes do
   rake 'commentable:weight:update'
