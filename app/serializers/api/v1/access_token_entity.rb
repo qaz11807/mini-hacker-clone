@@ -1,5 +1,6 @@
 class Api::V1::AccessTokenEntity < BaseEntity
-  expose :token, :expires_in, :refresh_token, :token_type, :expires_in
+  expose :token, as: :access_token
+  expose :expires_in, :refresh_token, :token_type, :expires_in
 
   expose :created_at
 

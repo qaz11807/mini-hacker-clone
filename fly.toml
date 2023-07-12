@@ -5,15 +5,22 @@
 
 app = "back-founder-side-project"
 primary_region = "nrt"
-console_command = "/rails/bin/rails console"
 
 [http_service]
   internal_port = 3000
   force_https = true
-  auto_stop_machines = true
-  auto_start_machines = true
+  auto_stop_machines = false
+  auto_start_machines = false
   min_machines_running = 0
+  processes = ["app"]
 
 [[statics]]
   guest_path = "/rails/public"
   url_prefix = "/"
+
+[deploy]
+  release_command = "bin/rails db:prepare"
+
+[processes]
+  app = ""
+  cron = "sh bin/cron"

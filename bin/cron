@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+./bin/bundle exec whenever --update-crontab
+
+cron -f

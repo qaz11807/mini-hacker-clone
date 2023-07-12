@@ -10,15 +10,16 @@ class WeightCalculator < ServiceCaller
   private
 
   def base_weight
-    100
+    50
   end
 
+  # The time interval is adjusted to minutes for ease of observation.
   def time_factor
-    ((Time.now.utc - @created_at) / 1.hour).round
+    ((Time.now.utc - @created_at) / 1.minute).round
   end
 
   def gravity_factor
-    0.05
+    0.1
   end
 
   def calculate_weight

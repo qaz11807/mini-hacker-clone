@@ -47,6 +47,10 @@ RUN chmod +x ./bin/rails && \
 # Final stage for app image
 FROM base
 
+# Insall crontab
+RUN apt-get update
+RUN apt-get install -y cron
+
 # Install packages needed for deployment
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libsqlite3-0 postgresql-client && \
@@ -57,9 +61,9 @@ COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
-USER rails:rails
+# RUN useradd rails --create-home --shell /bin/bash && \
+#     chown -R rails:rails db log storage tmp
+# USER rails:rails
 
 # Deployment options
 ENV RAILS_LOG_TO_STDOUT="1" \
