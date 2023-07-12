@@ -10,6 +10,6 @@ class Post < ApplicationRecord
   def nested_comments(with_voted: false)
     associtaions = [:user]
     associtaions << :votes if with_voted
-    comments.map { |comment| comment.subtree.eager_load(associtaions).sort_by_weight }
+    comments.sort_by_weight.map { |comment| comment.subtree.eager_load(associtaions).sort_by_weight }
   end
 end

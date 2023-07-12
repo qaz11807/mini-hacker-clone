@@ -14,9 +14,7 @@ class Api::ApplicationController < ApplicationController
     return @user if @user.present?
 
     if @token.nil?
-      return if optional
-
-      render status: 401
+      render status: 401 unless optional
     else
       @user = User.find_by(id: @token[:resource_owner_id])
     end

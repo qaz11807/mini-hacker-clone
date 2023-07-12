@@ -1,12 +1,12 @@
 class Api::V1::PostsController < Api::V1::ApplicationController
-  before_action :setup_user, only: [:create, :add_comment]
-  before_action -> { setup_user(optional: true) }
+  before_action :setup_user, only: [:create, :add_comment, :vote]
+  before_action -> { setup_user(optional: true) }, only: [:index, :show]
   before_action :setup_post, only: [:show, :add_comment, :vote]
 
   def index
     per_page = params[:per_page] || Post::PER_PAGE
     page = params[:page] || 1
-    posts = Post.includes(:user).all.sort_by_weight.page(page).per(per_page)
+    posts = Post.includes(:user, :votes).all.sort_by_weight.page(page).per(per_page)
 
     serialize_response(:post_summary, posts)
   end

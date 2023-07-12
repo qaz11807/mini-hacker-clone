@@ -6,6 +6,6 @@ class Api::V1::PostSummaryEntity < BaseSummaryEntity
   private
 
   def post_entities
-    @post_entities ||= Api::V1::PostEntity.represent(pagination_items)
+    @post_entities ||= Api::V1::PostEntity.represent(pagination_items, options)
   end
 end

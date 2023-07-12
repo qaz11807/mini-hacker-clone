@@ -16,17 +16,17 @@ class User::Registration < ServiceCaller
   private
 
   def check_email_format
-    raise ServiceError.new(:invalid_email) unless @user_info[:email].match?(URI::MailTo::EMAIL_REGEXP)
+    raise ServiceError.new(:invalid_email) unless @user_info[:username].match?(URI::MailTo::EMAIL_REGEXP)
   end
 
   def check_email_exist
-    @user = User.find_by(email: @user_info[:email])
+    @user = User.find_by(email: @user_info[:username])
     raise ServiceError.new(:email_already_registered) if @user.present?
   end
 
   def setup_user
     @user = User.new
-    @user.assign_attributes(@user_info)
+    @user.password = @user_info[:password]
     @user.save!
   end
 

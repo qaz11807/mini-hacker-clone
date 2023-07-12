@@ -3,7 +3,7 @@ module Weighable
 
   included do
     before_create :update_weight
-    scope :sort_by_weight, -> { order(weight: :desc) }
+    scope :sort_by_weight, -> { order(weight: :desc, created_at: :desc) }
   end
 
   def update_weight
