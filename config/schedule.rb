@@ -10,7 +10,7 @@ env :PATH, ENV['PATH']
 ENV.each { |k, v| env(k, v) }
 
 every 1.minutes do
-  rake 'commentable:weight:update'
+  rake 'weightable:weight:update'
 end
 
 # Learn more: http://github.com/javan/whenever

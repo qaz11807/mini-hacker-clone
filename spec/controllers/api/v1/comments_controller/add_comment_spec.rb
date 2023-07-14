@@ -23,7 +23,7 @@ RSpec.describe '/comments#add_comment', type: :request do
       expect(response).to have_http_status(:ok)
 
       expect(
-        @comment.comments.find_by(user: @user)
+        @comment.children.find_by(user: @user)
       ).to be_present
     end
 

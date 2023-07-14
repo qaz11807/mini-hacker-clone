@@ -3,7 +3,7 @@ class Api::V1::CommentsController < Api::V1::ApplicationController
   before_action :setup_comment, only: [:add_comment, :vote]
 
   def add_comment
-    comment = @user.comments.create!(text: params[:text], commentable: @comment)
+    comment = @comment.children.create!(text: params[:text], user: @user, post: @comment.post)
 
     serialize_response(:comment, comment)
   end

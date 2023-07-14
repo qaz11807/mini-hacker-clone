@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_10_093951) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_14_061633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,12 +20,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_093951) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ancestry", null: false, collation: "C"
-    t.string "commentable_type"
-    t.integer "commentable_id"
     t.bigint "user_id"
     t.integer "votes_count", default: 0
     t.integer "external_id"
+    t.integer "ancestry_depth", default: 0
+    t.integer "children_count", default: 0
+    t.bigint "post_id", null: false
     t.index ["ancestry"], name: "index_comments_on_ancestry"
+    t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -79,9 +81,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_093951) do
     t.datetime "updated_at", null: false
     t.integer "post_type", default: 0
     t.bigint "user_id"
-    t.integer "descendants", default: 0
     t.integer "external_id"
     t.integer "votes_count", default: 0
+    t.integer "comments_count", default: 0
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -105,6 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_093951) do
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
+  add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"

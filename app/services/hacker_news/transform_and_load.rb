@@ -5,7 +5,18 @@ class HackerNews::TransformAndLoad < ServiceCaller
 
   def call
     load_data
-    create_items(@data)
+
+    @data.each do |item|
+      next if item['deleted']
+      next if %w[job story].exclude?(item['type'])
+
+      user = find_or_create_user_by_name(item['by'])
+      post = create_or_update_post(item, user)
+
+      next unless item['kids'].is_a? Array
+
+      create_comments(item['kids'], post)
+    end
   end
 
   private
@@ -15,32 +26,26 @@ class HackerNews::TransformAndLoad < ServiceCaller
     @data = JSON.parse(file)
   end
 
-  def create_items(items, parent: nil)
+  def create_comments(items, post, parent: nil)
     items.each do |item|
       next if item['deleted']
-      next if %w[job story comment].exclude?(item['type'])
-      next if item['type'] == 'comment' && parent.nil?
 
       user = find_or_create_user_by_name(item['by'])
 
-      @item = case (item['type'])
-              when 'job', 'story'
-                create_or_update_post(item, user)
-              when 'comment'
-                create_or_update_comment(item, user, parent)
-              end
+      comment = create_or_update_comment(item, user, post, parent: parent)
 
       next unless item['kids'].is_a? Array
 
-      create_items(item['kids'], parent: @item)
+      create_comments(item['kids'], post, parent: comment)
     end
   end
 
-  def create_or_update_comment(item, user, parent)
+  def create_or_update_comment(item, user, post, parent: nil)
     comment = Comment.find_or_initialize_by(external_id: item['id'])
     comment.assign_attributes(text: item['text'],
-                              commentable: parent,
+                              post: post,
                               user: user)
+    comment.parent = parent if parent.present?
     comment.save!
     comment
   end

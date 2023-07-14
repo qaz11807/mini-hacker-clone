@@ -12,7 +12,11 @@ class Api::V1::PostsController < Api::V1::ApplicationController
   end
 
   def show
-    serialize_response(:post, @post, with_comments: true)
+    association_array = [:user]
+    association_array << :votes if @user
+    @comments = @post.comments.includes(association_array)
+
+    serialize_response(:post, @post, comments: @comments)
   end
 
   def create
